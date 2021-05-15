@@ -86,13 +86,4 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
     # В задании не сказано чекнуть базу на ошибки, поэтому принимаем, что база корректная.
     # логично не делать десять проверок, а сразу сделать словарь + кортеж
 
-
-    # if '2021' in data[0][4]:
-    #     print(data[0][4])
-    # else:
-    #     print('FUck')
-
-
-
-
 database_search()
