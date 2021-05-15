@@ -1,0 +1,47 @@
+задачи:
+
+1)
+за каждый день января 2021 года (по дате завершения заказа = finish_dt) вывести следующие данные:
+
+client_payments -- сколько денег клиенты заплатили за заказы
+revenue         -- сколько денег осталось после всех выплат курьерам
+AOR             -- average order revenue (доход в расчете на выполненный заказ)
+
+деньги считаем только за выполненные (completed) заказы
+
+2)
+сколько заказов в феврале 2021 года сделали клиенты, которые сделали свой первый заказ в январе?
+заказы опять считаем только выполненные и по дате завершения
+
+3)
+для каждого города по дням создания заказа вывести следующие метрики. для заказов созданных в январе 2021:
+- кол-во созданных заказов
+- % отмененных заказов
+- кол-во активных клиентов (активный = тот кто создавал заказы)
+- кол-во заказов выполненных в тот же день
+- медианное время выполнения заказа (предполагаем, что запрос выполняется на последней версии postgresql/mysql/mariadb)
+
+
+таблицы:
+
+create table orders (
+  order_id        int unsigned not null auto_increment,
+  city_id         tinyint unsigned not null,
+  client_id       int unsigned not null,
+  client_payment  int unsigned not null,
+  created_dt      datetime not null,
+  status          enum('active', 'completed', 'cancelled') not null,
+  courier_id      int unsigned default null,
+  courier_payment int unsigned default null,
+  finish_dt       datetime default null,
+
+  primary key (order_id)
+);
+
+create table courier_bonuses (
+  date         date not null,
+  courier_id   int unsigned not null,
+  bonus_amount int unsigned not null,
+
+  primary key (date, courier_id)
+);
