@@ -67,9 +67,16 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
     delta = datetime.timedelta(days=1)
     while start_date <= end_date:
         if start_date in date_check.keys():
-            print(f'{start_date} - YES')
+            revenue = date_check[start_date][0] - date_check[start_date][1]
+            print(f'{start_date}:\n'
+                  f'client_payments - {date_check[start_date][0]}\n'
+                  f'revenue - {revenue}\n'
+                  f'AOR - {revenue/date_check[start_date][2]}')
         else:
-            print(f'{start_date} - NAH')
+            print(f'{start_date}:\n'
+                  f'client_payments - 0\n'
+                  f'revenue - 0\n'
+                  f'AOR - 0')
         start_date += delta
 
     # давай распишем логику
