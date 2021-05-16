@@ -1,0 +1,155 @@
+Date - 2021-01-01
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-02
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-03
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-04
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-05
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-06
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-07
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-08
+client payments - 1500
+revenue - 660
+AOR - 660.0
+
+Date - 2021-01-09
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-10
+client payments - 5400
+revenue - 1947
+AOR - 973.5
+
+Date - 2021-01-11
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-12
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-13
+client payments - 2350
+revenue - 1035
+AOR - 1035.0
+
+Date - 2021-01-14
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-15
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-16
+client payments - 2800
+revenue - 770
+AOR - 770.0
+
+Date - 2021-01-17
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-18
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-19
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-20
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-21
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-22
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-23
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-24
+client payments - 1300
+revenue - 286
+AOR - 286.0
+
+Date - 2021-01-25
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-26
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-27
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-28
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-29
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-30
+client payments - 0
+revenue - 0
+AOR - 0
+
+Date - 2021-01-31
+client payments - 0
+revenue - 0
+AOR - 0
+

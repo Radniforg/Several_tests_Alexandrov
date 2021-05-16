@@ -9,7 +9,7 @@ import datetime
 # деньги считаем только за выполненные (completed) заказы
 
 
-def database_search(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost'):
+def database_search(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost', text=0):
     conn = psycopg2.connect(dbname=dbname, user=user,
                             password=password, host=host)
     with conn:
@@ -65,19 +65,26 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
     start_date = datetime.date(2021, 1, 1)
     end_date = datetime.date(2021, 1, 31)
     delta = datetime.timedelta(days=1)
+    report = {}
     while start_date <= end_date:
         if start_date in date_check.keys():
             revenue = date_check[start_date][0] - date_check[start_date][1]
-            print(f'{start_date}:\n'
-                  f'client_payments - {date_check[start_date][0]}\n'
-                  f'revenue - {revenue}\n'
-                  f'AOR - {revenue/date_check[start_date][2]}')
+            report.update({start_date: {'client_payment': date_check[start_date][0],
+                                        'revenue': revenue,
+                                        'AOR': revenue/date_check[start_date][2]}})
         else:
-            print(f'{start_date}:\n'
-                  f'client_payments - 0\n'
-                  f'revenue - 0\n'
-                  f'AOR - 0')
+            report.update({start_date: {'client_payment': 0,
+                                        'revenue': 0,
+                                        'AOR': 0}})
         start_date += delta
+    if text != 0:
+        with open('report_test_1.txt', 'w', encoding='UTF-8') as port:
+            for key in sorted(report.keys()):
+                port.write(f'Date - {key}\n'
+                           f'client payments - {report[key]["client_payment"]}\n'
+                           f'revenue - {report[key]["revenue"]}\n'
+                           f'AOR - {report[key]["AOR"]}\n\n')
+    return report
 
     # давай распишем логику
     # крутить по 20 раз массив с данными нельзя - их может быть 100500 штук
@@ -86,4 +93,9 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
     # В задании не сказано чекнуть базу на ошибки, поэтому принимаем, что база корректная.
     # логично не делать десять проверок, а сразу сделать словарь + кортеж
 
-database_search()
+report = database_search(text=1)
+for key in report.keys():
+    print(f'Дата - {key}:\n'
+          f'client payments - {report[key]["client_payment"]}\n'
+          f'revenue - {report[key]["revenue"]}\n'
+          f'AOR - {report[key]["AOR"]}\n')
