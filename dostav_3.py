@@ -65,19 +65,8 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
         # затем нужно еще раз пробежаться по ключам и выдать все в качестве файла и текста.
         if text != 0:
             port = open('report_test_3.txt', 'w', encoding='UTF-8')
-        for key in sorted(report.keys()):
-            if report[key]['orders'] != 0:
-                # нужно отсортировать ключи по возрастанию и придумать счет медианы (не среднего)
-                print(f'Город {key} за январь 2021:\n'
-                      f'Количество созданных заказов: {report[key]["orders"]}\n'
-                      f'Процент отмененных заказов: '
-                      f'{report[key]["cancelled"]/report[key]["orders"]*100}%\n'
-                      f'Количество активных клиентов: {len(report[key]["active"])}\n'
-                      f'Количество выполненных заказов в тот же день: '
-                      f'{report[key]["daily"]}\n'
-                      f'Медианное время выполнения заказа: '
-                      f'{pd.to_timedelta(report[key]["total_time"]).median()}')
-                if text != 0:
+            for key in sorted(report.keys()):
+                if report[key]['orders'] != 0:
                     port.write(f'Город {key} за январь 2021:\n '
                                f'Количество созданных заказов: {report[key]["orders"]}\n '
                                f'Процент отмененных заказов: '
@@ -87,14 +76,7 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
                                f'{report[key]["daily"]}\n '
                                f'Медианное время выполнения заказа: '
                                f'{pd.to_timedelta(report[key]["total_time"]).median()}\n\n')
-            else:
-                print(f'Город {key} за январь 2021:\n'
-                      f'Количество созданных заказов: 0\n'
-                      f'Процент отмененных заказов: 0.0%\n'
-                      f'Количество активных клиентов: 0\n'
-                      f'Количество выполненных заказов в тот же день: 0\n'
-                      f'Медианное время выполнения заказа: 0')
-                if text != 0:
+                else:
                     port.write(f'Город {key} за январь 2021:\n'
                                f'Количество созданных заказов: 0\n'
                                f'Процент отмененных заказов: 0.0%\n'
@@ -104,4 +86,23 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
         return report
 
 
-print(database_search(text=1))
+report = database_search(text=1)
+for key in sorted(report.keys()):
+    if report[key]['orders'] != 0:
+        # нужно отсортировать ключи по возрастанию и придумать счет медианы (не среднего)
+        print(f'Город {key} за январь 2021:\n'
+              f'Количество созданных заказов: {report[key]["orders"]}\n'
+              f'Процент отмененных заказов: '
+              f'{report[key]["cancelled"] / report[key]["orders"] * 100}%\n'
+              f'Количество активных клиентов: {len(report[key]["active"])}\n'
+              f'Количество выполненных заказов в тот же день: '
+              f'{report[key]["daily"]}\n'
+              f'Медианное время выполнения заказа: '
+              f'{pd.to_timedelta(report[key]["total_time"]).median()}')
+    else:
+        print(f'Город {key} за январь 2021:\n'
+              f'Количество созданных заказов: 0\n'
+              f'Процент отмененных заказов: 0.0%\n'
+              f'Количество активных клиентов: 0\n'
+              f'Количество выполненных заказов в тот же день: 0\n'
+              f'Медианное время выполнения заказа: 0')
