@@ -13,7 +13,7 @@ import dostav_1
 
 
 def database_search_test_3(dbname='dostavista', user='postgres',
-                           password='Grof240192#', host='localhost', text= 0):
+                           password='', host='localhost', text= 0):
     conn = psycopg2.connect(dbname=dbname, user=user,
                             password=password, host=host)
     with conn:
