@@ -1,5 +1,6 @@
 import psycopg2
 import datetime
+import pandas as pd
 
 # для каждого города по дням создания заказа вывести следующие метрики. для заказов созданных в январе 2021:
 # - кол-во созданных заказов
@@ -38,23 +39,23 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
         # dict = {city_id: {orders: a, cancelled: b, active: [1, 2, ... , n], daily: c, total_time: d}}
         report = {}
         for city in city_list:
-            report[city] = {'orders': 0, 'cancelled': 0, 'active': [], 'daily': 0, 'total_time': 0}
+            report[city] = {'orders': 0, 'cancelled': 0, 'active': [], 'daily': 0, 'total_time': []}
         limit = datetime.timedelta(days=1)
         for row in january:
             if row[1] not in report.keys():
                 report[row[1]] = {'orders': 1, 'cancelled': 0,
                                   'active': [row[2]], 'daily': 0,
-                                  'total_time': datetime.timedelta(days=0)}
+                                  'total_time': []}
                 if row[5] == 'cancelled':
                     report[row[1]]['cancelled'] = 1
                 elif row[5] == 'completed':
-                    report[row[1]]['total_time'] = row[8] - row[4]
+                    report[row[1]]['total_time'].append(row[8] - row[4])
                     if row[8] - row[4] < limit:
                         report[row[1]]['daily'] = 1
             else:
                 report[row[1]]['orders'] += 1
                 if row[5] == 'completed':
-                    report[row[1]]['total_time'] = report[row[1]]['total_time'] + row[8] - row[4]
+                    report[row[1]]['total_time'].append(row[8] - row[4])
                     if row[8] - row[4] < limit:
                         report[row[1]]['daily'] += 1
                 elif row[5] == 'cancelled':
@@ -64,7 +65,8 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
         playtime = row[8] - row[4]
         print(playtime)
         # затем нужно еще раз пробежаться по ключам и выдать все в качестве файла и текста.
-        for key in report.keys():
+
+        for key in sorted(report.keys()):
             if report[key]['orders'] != 0:
                 # нужно отсортировать ключи по возрастанию и придумать счет медианы (не среднего)
                 print(f'Город {key} за январь 2021:\n'
@@ -74,7 +76,8 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
                       f'Количество активных клиентов: {len(report[key]["active"])}\n'
                       f'Количество выполненных заказов в тот же день: '
                       f'{report[key]["daily"]}\n'
-                      f'Медианное время выполнения заказа:')
+                      f'Медианное время выполнения заказа: '
+                      f'{pd.to_timedelta(report[key]["total_time"]).median()}')
             else:
                 print(f'Город {key} за январь 2021:\n'
                       f'Количество созданных заказов: 0\n'
