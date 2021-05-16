@@ -1,5 +1,6 @@
 import psycopg2
 import datetime
+import sys
 
 # Текст задачи:
 # за каждый день января 2021 года (по дате завершения заказа = finish_dt) вывести следующие данные:
@@ -9,7 +10,7 @@ import datetime
 # деньги считаем только за выполненные (completed) заказы
 
 
-def database_search(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost', text=0):
+def database_search_test_1(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost', text=0):
     conn = psycopg2.connect(dbname=dbname, user=user,
                             password=password, host=host)
     with conn:
@@ -93,9 +94,75 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
     # В задании не сказано чекнуть базу на ошибки, поэтому принимаем, что база корректная.
     # логично не делать десять проверок, а сразу сделать словарь + кортеж
 
-report = database_search(text=1)
-for key in report.keys():
-    print(f'Дата - {key}:\n'
-          f'client payments - {report[key]["client_payment"]}\n'
-          f'revenue - {report[key]["revenue"]}\n'
-          f'AOR - {report[key]["AOR"]}\n')
+
+def entry():
+    cycle = 0
+    while cycle == 0:
+        print(f'Если вы хотите ввести параметры БД в этом окне - отправьте 1\n'
+              f'Если вы уже ввели параметры в функцию внутри кода - нажмите 0\n'
+              f'Если вы хотите завершить программу, чтобы внести параметры в код - нажмите 2\n'
+              f'Введите: ')
+        answer = int(input())
+        if answer == 0 or answer == 1:
+            cycle = 1
+        elif answer == 2:
+            sys.exit()
+        else:
+            print(f'Введено некорректное значение, повторите ввод\n')
+    if answer == 0:
+        print('Хорошо')
+        return None
+    else:
+        print(f'Введите имя базы данных:')
+        dbname = input()
+        print(f'Введите имя пользователя:')
+        user = input()
+        print(f'Введите пароль:')
+        password = input()
+        cycle_2 = 0
+        while cycle_2 == 0:
+            print(f'Параметр host отличается от localhost? Y/N')
+            host_answer = input()
+            if host_answer.upper() == 'Y' or host_answer.upper() == 'N':
+                cycle_2 = 1
+            else:
+                print(f'Введено некорректное значение, повторите ввод\n')
+        if host_answer.upper() == 'N':
+            host = 'localhost'
+        else:
+            print(f'Пожалуйста, введите значение host:')
+            host = input()
+        cycle_3 = 0
+        while cycle_3 == 0:
+            print(f'Хотите ли вы получить отчет в том числе в виде текстового файла? Y/N')
+            text_answer = input()
+            if text_answer.upper() == 'Y' or text_answer.upper() == 'N':
+                cycle_3 = 1
+            else:
+                print(f'Введено некорректное значение, повторите ввод\n')
+        if text_answer.upper() == 'N':
+            text = 0
+        else:
+            text = 1
+    return_dictionary = {'dbname': dbname, 'user': user,
+                         'password': password, 'host': host, 'text': text}
+    return return_dictionary
+
+
+if __name__ == "__main__":
+    db_info = entry()
+    if db_info:
+        report = database_search_test_1(dbname=db_info['dbname'],
+                                        user=db_info['user'],
+                                        password=db_info['password'],
+                                        host=db_info['host'],
+                                        text=db_info['text'])
+    else:
+        report = database_search_test_1()
+    for key in report.keys():
+        print(f'Дата - {key}:\n'
+              f'client payments - {report[key]["client_payment"]}\n'
+              f'revenue - {report[key]["revenue"]}\n'
+              f'AOR - {report[key]["AOR"]}\n')
+
+# (dbname='dostavista', user='postgres', password='Grof240192#', host='localhost', text=0)

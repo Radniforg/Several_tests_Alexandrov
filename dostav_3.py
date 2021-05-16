@@ -1,6 +1,7 @@
 import psycopg2
 import datetime
 import pandas as pd
+import dostav_1
 
 # для каждого города по дням создания заказа вывести следующие метрики. для заказов созданных в январе 2021:
 # - кол-во созданных заказов
@@ -10,7 +11,7 @@ import pandas as pd
 # - медианное время выполнения заказа (предполагаем, что запрос выполняется на последней версии postgresql/mysql/mariadb)
 
 
-def database_search(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost', text= 0):
+def database_search_test_3(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost', text= 0):
     conn = psycopg2.connect(dbname=dbname, user=user,
                             password=password, host=host)
     with conn:
@@ -86,7 +87,15 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
         return report
 
 
-report = database_search(text=1)
+db_info = dostav_1.entry()
+if db_info:
+    report = database_search_test_3(dbname=db_info['dbname'],
+                                    user=db_info['user'],
+                                    password=db_info['password'],
+                                    host=db_info['host'],
+                                    text=db_info['text'])
+else:
+    report = database_search_test_3(text=1)
 for key in sorted(report.keys()):
     if report[key]['orders'] != 0:
         # нужно отсортировать ключи по возрастанию и придумать счет медианы (не среднего)

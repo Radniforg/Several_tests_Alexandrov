@@ -1,10 +1,10 @@
 import psycopg2
-
+import dostav_1
 # сколько заказов в феврале 2021 года сделали клиенты, которые сделали свой первый заказ в январе?
 # заказы опять считаем только выполненные и по дате завершения
 
 
-def database_search(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost', text=0):
+def database_search_test_2(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost', text=0):
     conn = psycopg2.connect(dbname=dbname, user=user,
                             password=password, host=host)
     with conn:
@@ -50,5 +50,14 @@ def database_search(dbname='dostavista', user='postgres', password='Grof240192#'
     return new_client_orders
 
 
+db_info = dostav_1.entry()
+if db_info:
+    report = database_search_test_2(dbname=db_info['dbname'],
+                                    user=db_info['user'],
+                                    password=db_info['password'],
+                                    host=db_info['host'],
+                                    text=db_info['text'])
+else:
+    report = database_search_test_2()
 print(f'Количество новых заказов в феврале 2021 года от клиентов, которые сделали '
-      f'свой первый заказ в январе: {database_search(text=1)}')
+      f'свой первый заказ в январе: {database_search_test_2(text=1)}')
