@@ -30,7 +30,7 @@ def database_creation(dbname='postgres', user='postgres', password='', host='loc
     conn.close()
 
 
-def table_creation(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost'):
+def table_creation(dbname='dostavista', user='postgres', password='', host='localhost'):
     conn = psycopg2.connect(dbname=dbname, user=user,
                             password=password, host=host)
     with conn:
