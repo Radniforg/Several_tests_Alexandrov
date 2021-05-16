@@ -21,7 +21,7 @@ def unravel(json_name):
 # Техническая функция для создания новой базы данных.
 def database_creation(dbname='postgres', user='postgres', password='', host='localhost'):
     conn = psycopg2.connect(
-            database="postgres", user='postgres', password='', host='localhost')
+            database=dbname, user=user, password=password, host=host)
     conn.autocommit = True
     cursor = conn.cursor()
     # Вставить название базы
@@ -74,6 +74,25 @@ def database_many(dbname='dostavista', user='postgres',
         cur.close()
 
 
+print(f'Нужно ли вам создать новую базу данных? Y/N\n')
+cycle = 0
+while cycle == 0:
+    answer = input()
+    if answer.upper() == 'Y' or answer.upper() == 'N':
+        cycle = 1
+    else:
+        print(f'Некорректный ввод. Пожалуйста, повторите\n')
+if answer.upper() == 'Y':
+    print(f'Пожалуйста, введите имя основной БД (по умолчанию postgres)')
+    dbname = input()
+    print(f'Пожалуйста, введите логин')
+    user = input()
+    print(f'Пожалуйста, введите пароль')
+    password = input()
+    print(f'Пожалуйста, введите хост (по умолчанию localhost)')
+    host = input()
+    database_creation(dbname=dbname, user=user, password=password, host=host)
+
 db_info = dostav_1.entry()
 if db_info:
     table_creation(dbname=db_info['dbname'],
@@ -91,7 +110,6 @@ if db_info:
                   host=db_info['host'],
                   json='cb.json')
 else:
-    database_creation()
     table_creation()
     database_many(json='orders.json')
     database_many(json='cb.json')
