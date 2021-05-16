@@ -57,4 +57,4 @@ if db_info:
 else:
     report = database_search_test_2()
 print(f'Количество новых заказов в феврале 2021 года от клиентов, которые сделали '
-      f'свой первый заказ в январе: {database_search_test_2(text=1)}')
+      f'свой первый заказ в январе: {report}')
