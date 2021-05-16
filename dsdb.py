@@ -1,7 +1,7 @@
 import psycopg2
 import json
-import sys
-import psycopg2.sql as sq
+import dostav_1
+
 
 # вспомогательная функция для заполнения таблицы тестовыми данными.
 def unravel(json_name):
@@ -18,9 +18,10 @@ def unravel(json_name):
         return tup
 
 
-def database_creation():
+# Техническая функция для создания новой базы данных.
+def database_creation(dbname='postgres', user='postgres', password='', host='localhost'):
     conn = psycopg2.connect(
-            database="postgres", user='postgres', password='Grof240192#', host='localhost')
+            database="postgres", user='postgres', password='', host='localhost')
     conn.autocommit = True
     cursor = conn.cursor()
     # Вставить название базы
@@ -73,5 +74,24 @@ def database_many(dbname='dostavista', user='postgres',
         cur.close()
 
 
-# print(unravel("orders.json"))
-database_many()
+db_info = dostav_1.entry()
+if db_info:
+    table_creation(dbname=db_info['dbname'],
+                   user=db_info['user'],
+                   password=db_info['password'],
+                   host=db_info['host'])
+    database_many(dbname=db_info['dbname'],
+                  user=db_info['user'],
+                  password=db_info['password'],
+                  host=db_info['host'],
+                  json='orders.json')
+    database_many(dbname=db_info['dbname'],
+                  user=db_info['user'],
+                  password=db_info['password'],
+                  host=db_info['host'],
+                  json='cb.json')
+else:
+    database_creation()
+    table_creation()
+    database_many(json='orders.json')
+    database_many(json='cb.json')

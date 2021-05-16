@@ -1,10 +1,12 @@
 import psycopg2
 import dostav_1
+
 # сколько заказов в феврале 2021 года сделали клиенты, которые сделали свой первый заказ в январе?
 # заказы опять считаем только выполненные и по дате завершения
 
 
-def database_search_test_2(dbname='dostavista', user='postgres', password='Grof240192#', host='localhost', text=0):
+def database_search_test_2(dbname='dostavista', user='postgres',
+                           password='', host='localhost', text=0):
     conn = psycopg2.connect(dbname=dbname, user=user,
                             password=password, host=host)
     with conn:
@@ -30,17 +32,12 @@ def database_search_test_2(dbname='dostavista', user='postgres', password='Grof2
     for row in before:
         if row[2] not in old_clients:
             old_clients.append(row[2])
-    # print(f'old clients: {old_clients}')
     new_clients = []
     for row in january:
         if row[2] not in old_clients:
             new_clients.append(row[2])
-    # print(f'new clients: {new_clients}')
-    clients = []
     new_client_orders = 0
     for row in february:
-        # if row[2] not in old_clients and row[2] in new_clients and row[2] not in clients:
-        #     clients.append(row[2])
         if row[2] not in old_clients and row[2] in new_clients:
             new_client_orders += 1
     if text != 0:
